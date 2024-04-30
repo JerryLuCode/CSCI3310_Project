@@ -1,5 +1,6 @@
 package edu.cuhk.csci3310.mediaplayer;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        //Intent videoPlayerIntent = new Intent(MainActivity.this, VideoPlayer.class);
-        //startActivity(videoPlayerIntent);
+        Intent videoPlayerIntent = new Intent(MainActivity.this, VideoPlayer.class);
+        startActivity(videoPlayerIntent);
 
     }
 

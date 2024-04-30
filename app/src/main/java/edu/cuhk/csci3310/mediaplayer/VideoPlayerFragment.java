@@ -7,11 +7,13 @@ import androidx.media3.common.MediaItem;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.PlayerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class VideoPlayerFragment extends Fragment {
+    public ExoPlayer player;
     public VideoPlayerFragment() {
         // Required empty public constructor
     }
@@ -22,7 +24,7 @@ public class VideoPlayerFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_video_player, container, false);
         PlayerView playerView = rootView.findViewById(R.id.player_view);
-        ExoPlayer player = new ExoPlayer.Builder(getContext()).build();
+        player = new ExoPlayer.Builder(getContext()).build();
         String videoUri = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4";
         MediaItem mediaItem = MediaItem.fromUri(videoUri);  // Video
 
@@ -32,6 +34,14 @@ public class VideoPlayerFragment extends Fragment {
         player.play();  // Play the video
 
         return rootView;
-
     }
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        player.stop();
+    }
+
 }
