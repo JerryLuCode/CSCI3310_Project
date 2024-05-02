@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+        // Intent for starting the video player activity
         Intent videoPlayerIntent = new Intent(MainActivity.this, VideoPlayer.class);
         startActivity(videoPlayerIntent);
 

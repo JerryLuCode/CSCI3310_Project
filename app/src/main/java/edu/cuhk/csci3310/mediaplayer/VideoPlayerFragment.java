@@ -47,23 +47,10 @@ public class VideoPlayerFragment extends Fragment {
         PlayerView playerView = rootView.findViewById(R.id.player_view);
         // player stores the Exoplayer
         player = new ExoPlayer.Builder(getContext()).build();
-
-        /*
-        File downloadFolder = requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-        if (downloadFolder != null) {
-            File[] fileList = downloadFolder.listFiles();
-            Log.d("fileList", fileList[0].getName());
-            //for (int i = 0; i < fileList.length; i++) Log.d("fileList", fileList[i].getName());
-        }*/
-
         // videoUri stores the url/file of the video
         String videoUri = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4";
         // mediaItem stores the media for player (video)
         MediaItem mediaItem = MediaItem.fromUri(videoUri);
-
-        /*Uri videoUri = Uri.fromFile(new File("/storage/emulated/0/Android/Download/SubaruOutbackOnStreetAndDirt.mp4"));
-        MediaItem mediaItem = MediaItem.fromUri(videoUri);*/
-
         // Attach player to the view
         playerView.setPlayer(player);
         // Set the media item
@@ -94,7 +81,6 @@ public class VideoPlayerFragment extends Fragment {
                 } else volumeSlider.setVisibility(View.INVISIBLE);
             }
         });
-
 
         return rootView;
     }
