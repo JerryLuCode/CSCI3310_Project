@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="edu.cuhk.csci3310.mediaplayer.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_songs"
+        android:name="edu.cuhk.csci3310.mediaplayer.ui.audio.AudioFragment"
+        android:label="@string/title_songs"
+        tools:layout="@layout/fragment_audio" />
 
     <fragment
         android:id="@+id/navigation_notifications"
