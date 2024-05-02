@@ -46,6 +46,11 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int currentPosition = holder.getBindingAdapterPosition();
+                if (currentPosition == RecyclerView.NO_POSITION) {
+                    return;
+                }
+
                 // navigate to another activity and play the song
                 MyMediaPlayer.getInstance().reset();
                 MyMediaPlayer.currentIndex = position;
