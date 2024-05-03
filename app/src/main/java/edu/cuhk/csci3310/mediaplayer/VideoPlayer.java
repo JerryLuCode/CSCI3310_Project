@@ -2,33 +2,31 @@ package edu.cuhk.csci3310.mediaplayer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.PictureInPictureParams;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import java.util.Objects;
 
 public class VideoPlayer extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Objects.requireNonNull(this.getSupportActionBar()).hide();  // remove the title bar
         setContentView(R.layout.activity_video_player);
 
-        /* final ImageButton return_btn = findViewById(R.id.return_button);
-        return_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-                Log.d("return_btn", "clicked");
-            }
-        });*/
 
-        /*final Button test_btn = findViewById(R.id.test_button);
-        test_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("current_timestamp", Long.toString(.getContentPosition()));
-            }
-
-        });*/
+        // ---- PIP ----
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            setPictureInPictureParams(new PictureInPictureParams.Builder()
+                    .setAutoEnterEnabled(true)
+                    .build());
+        }
     }
+
 }
