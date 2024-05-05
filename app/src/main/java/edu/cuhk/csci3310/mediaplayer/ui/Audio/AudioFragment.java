@@ -1,7 +1,8 @@
 package edu.cuhk.csci3310.mediaplayer.ui.Audio;
 
+import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,28 +10,22 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import edu.cuhk.csci3310.mediaplayer.databinding.FragmentHomeBinding;
 import edu.cuhk.csci3310.mediaplayer.RecyclerAdapter;
+import edu.cuhk.csci3310.mediaplayer.MediaModel;
 
-//Kolla om man kan läsa video eller audio folder, eller skapa en public folder man kan läsa ifrån (efter 2ndra)
 public class AudioFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerAdapter mAdapter;
 
-    private LinkedList<String> imagePathList = new LinkedList<>();
-    private LinkedList<String> audioTitleList = new LinkedList<>();
-    private LinkedList<String> audioLengthList = new LinkedList<>();
-
-    private static final String LOG_TAG = AudioFragment.class.getSimpleName();
+    ArrayList<MediaModel> songsList = new ArrayList<>();
 
     private final String drawFilePath = "android.resource://edu.cuhk.csci3310.mediaplayer/drawable/";
     private FragmentHomeBinding binding;
@@ -39,83 +34,59 @@ public class AudioFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        AudioViewModel audioViewModel =
-                new ViewModelProvider(this).get(AudioViewModel.class);
-
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        //Get the audio files from storage
+        songsList.clear();
+        updateSongsList();
 
-        //Opens sdcard/android/data/edu.cuhk.csci3310.mediaplayer/Downloads
-        File downloadFolder = requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-
-
-        //readFiles and initialize lists
-        ArrayList<File> audioFiles = getAudioFiles(downloadFolder);
-
-        audioTitleList.clear();
-        audioLengthList.clear();
-        imagePathList.clear();
-        parseAudioFiles(audioFiles);
-
-
+        //Create the recyclerList
         createRecyclerView(root);
-
-        //final TextView textView = binding.textHome;
-        //homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         return root;
     }
 
     public void createRecyclerView(View root)
     {
-        // Get a handle to the RecyclerView.
+        //Get a handle to the RecyclerView.
         mRecyclerView = binding.recyclerview;
-        // Create an adapter and supply the data to be displayed,
-        // initially just a list of image path
-        mAdapter = new RecyclerAdapter(requireContext(), root, imagePathList, audioTitleList, audioLengthList);
+        //Create an adapter and supply the data to be displayed,
+        //initially just a list of image path
+        mAdapter = new RecyclerAdapter(requireContext(), root, requireActivity().
+                getSupportFragmentManager(),"audio", songsList);
 
-        // Connect the adapter with the RecyclerView.
+        //Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
-        // Give the RecyclerView a default layout manager.
+        //Give the RecyclerView a default layout manager.
        mRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
     }
 
-    //få den att fungers
-    public ArrayList<File> getAudioFiles(File downloadFolder)
-    {
-        ArrayList<File> arrayList = new ArrayList<>();
+    //Gets songs from storage
+    private void updateSongsList() {
+        String[] projection = {
+                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.DATA,
+                MediaStore.Audio.Media.DURATION,
+        };
 
-        File[] files = downloadFolder.listFiles();
-        for(File singlefile:files)
-        {
-            if(singlefile.isDirectory() && !singlefile.isHidden())
-            {
-                arrayList.addAll(getAudioFiles(singlefile));
-            }
-            else{
-                if(singlefile.getName().endsWith(".mp3")||singlefile.getName().endsWith(".wav"))
-                {
-                    arrayList.add(singlefile);
+        //Selection and sorting order
+        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+        String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
+
+        //Go through each media item and save it to MediaModel object
+        try (Cursor cursor = requireActivity().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, sortOrder)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do{
+                    MediaModel songData = new MediaModel(cursor.getString(1),cursor.getString(0),cursor.getString(2), drawFilePath+"audio_stock");
+                    if(new File(songData.getPath()).exists())
+                        songsList.add(songData);
                 }
+                while (cursor.moveToNext());
             }
-        }
-        Log.d(LOG_TAG, Integer.toString(arrayList.size()));
-        return arrayList;
-    }
-
-
-
-
-
-    public void parseAudioFiles(ArrayList<File> audioList)
-    {
-        for(int i = 0; i < audioList.size(); i++)
-        {
-            audioTitleList.add(audioList.get(i).getName().replace(".mp3", "").replace(".wav",""));
-            //Fix for audio length and maybe for audio data aswell
-            audioLengthList.add("02:47");
-            imagePathList.add(drawFilePath+"audio_stock");
+            Log.d("AudioFragment", "No of songs: " + songsList.size());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
