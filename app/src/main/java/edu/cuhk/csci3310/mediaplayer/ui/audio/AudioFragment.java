@@ -1,4 +1,4 @@
-package edu.cuhk.csci3310.mediaplayer.ui.audio;
+package edu.cuhk.csci3310.mediaplayer.ui.Audio;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
