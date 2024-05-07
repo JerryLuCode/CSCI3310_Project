@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,7 +20,7 @@ import androidx.media3.ui.PlayerView;
 
 import com.google.android.material.slider.Slider;
 
-import java.io.File;
+import java.util.Objects;
 
 import edu.cuhk.csci3310.mediaplayer.R;
 
@@ -30,9 +29,11 @@ public class VideoPlayer extends AppCompatActivity {
     private SharedPreferences mPreferences;
     private String sharedPrefFile = "edu.cuhk.csci3310.mediaplayer";
     private final String ARG_CONTENT_POSITION = "content_position";
+    private final String ARG_PREVIOUS_VIDEO_TITLE = "video_title";
     private PlayerView playerView;
     private ExoPlayer player;
     private Slider volumeSlider;
+
 
     ImageView shareBtn;
     @Override
@@ -46,7 +47,6 @@ public class VideoPlayer extends AppCompatActivity {
         Context context = this;
         // For storing video playback info
         mPreferences = context.getSharedPreferences(sharedPrefFile, context.MODE_PRIVATE);
-
 
         // ---- VIDEO PLAYBACK ----
         // playerView stores the view of the video player
@@ -64,9 +64,9 @@ public class VideoPlayer extends AppCompatActivity {
         player.setMediaItem(mediaItem);
         // Prepare player
         player.prepare();
-        // Resume the video progress after orientation changes,
-        Log.d("ContentDuration", Long.toString(getVideoLength(getVideoUri(mediaItem))));
-        if (mPreferences.getLong(ARG_CONTENT_POSITION, 0) <= getVideoLength(getVideoUri(mediaItem)))
+        // Resume the video progress after orientation changes
+        if (mPreferences.getLong(ARG_CONTENT_POSITION, 0) <= getVideoLength(getVideoUri(mediaItem))
+            && Objects.equals(intent.getStringExtra(ARG_PREVIOUS_VIDEO_TITLE), getVideoTitleFromIntent()))
             player.seekTo(mPreferences.getLong(ARG_CONTENT_POSITION, 0));
         // Play the video
         player.play();
@@ -117,7 +117,6 @@ public class VideoPlayer extends AppCompatActivity {
                     .setAutoEnterEnabled(true)
                     .build());
         }
-
     }
 
     @Override
@@ -139,6 +138,7 @@ public class VideoPlayer extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        saveVideoProgress();
         // Release the player
         player.release();
     }
@@ -157,6 +157,7 @@ public class VideoPlayer extends AppCompatActivity {
 
     private void saveVideoProgress() {
         SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(ARG_PREVIOUS_VIDEO_TITLE, getVideoTitleFromIntent());
         editor.putLong(ARG_CONTENT_POSITION, player.getContentPosition());
         editor.apply();
     }
@@ -189,5 +190,15 @@ public class VideoPlayer extends AppCompatActivity {
             Log.e("getVideoUri", "Unable to retrieve video uri!");
             return Uri.parse("");
         }
+    }
+
+    private String getVideoTitleFromIntent() {
+        Intent intent = getIntent();
+        return intent.getStringExtra("Title");
+    }
+
+    private void printPref() {
+        Log.d("saved_duration", Long.toString(mPreferences.getLong(ARG_CONTENT_POSITION, 0)));
+        Log.d("previous_video_title", mPreferences.getString(ARG_PREVIOUS_VIDEO_TITLE, ""));
     }
 }

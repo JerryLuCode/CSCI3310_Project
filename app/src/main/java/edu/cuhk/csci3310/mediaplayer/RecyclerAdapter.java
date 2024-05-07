@@ -57,6 +57,7 @@ public class RecyclerAdapter extends Adapter<RecyclerAdapter.BuildingViewHolder>
                     {
                         //Intent for starting the video player activity
                         Intent videoPlayerIntent = new Intent(context, VideoPlayer.class);
+                        videoPlayerIntent.putExtra("Title", mediaList.get(position).getTitle());
                         videoPlayerIntent.putExtra("URI", mediaList.get(position).getPath());
                         context.startActivity(videoPlayerIntent);
                     }else if(mediaType == "audio")
