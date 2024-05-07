@@ -76,7 +76,7 @@ public class VideoFragment extends Fragment {
         try (Cursor cursor = requireActivity().getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, projection, selection, null, sortOrder)) {
             if (cursor != null && cursor.moveToFirst()) {
                 do{
-                    MediaModel videoData = new MediaModel(cursor.getString(1),cursor.getString(0),cursor.getString(2), drawFilePath+"audio_stock");
+                    MediaModel videoData = new MediaModel(cursor.getString(1),cursor.getString(0),cursor.getString(2), drawFilePath+"movie_stock");
                     if(new File(videoData.getPath()).exists())
                         videoList.add(videoData);
                 }
