@@ -30,6 +30,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- add a service -->
+        <service android:name=".ui.audio.MusicService" />
     </application>
 
 </manifest>
