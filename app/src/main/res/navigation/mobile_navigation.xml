@@ -3,23 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_audio">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_audio"
         android:name="edu.cuhk.csci3310.mediaplayer.ui.Audio.AudioFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/title_audio"
+        tools:layout="@layout/fragment_audio" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_video"
         android:name="edu.cuhk.csci3310.mediaplayer.ui.Video.VideoFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:label="@string/title_video"
+        tools:layout="@layout/fragment_video" />
 
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="edu.cuhk.csci3310.mediaplayer.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
 </navigation>

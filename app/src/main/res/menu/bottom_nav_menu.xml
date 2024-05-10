@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/baseline_audiotrack_24"
-        android:title="Audio" />
+        android:id="@+id/navigation_audio"
+        android:icon="@drawable/rounded_music_video_24"
+        android:title="@string/title_audio" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_video"
         android:icon="@drawable/rounded_hangout_video_24"
-        android:title="Video" />
+        android:title="@string/title_video" />
 
 </menu>

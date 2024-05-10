@@ -18,9 +18,9 @@
         android:ellipsize="marquee"
         android:padding="20dp"
         android:singleLine="true"
-        android:text="Title of the song"
+        android:text="@string/song_title"
         android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <ImageView
         android:id="@+id/share_button"
@@ -29,7 +29,8 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="60dp"
         android:padding="20dp"
-        android:src="@drawable/share_image_white" />
+        android:src="@drawable/share_image_white"
+        android:contentDescription="@string/share_button" />
 
     <ImageView
         android:layout_width="300dp"
@@ -38,7 +39,8 @@
         android:layout_centerHorizontal="true"
         android:padding="20dp"
         android:layout_above="@id/controls"
-        android:src="@drawable/music_icon_big"/>
+        android:src="@drawable/music_icon_big"
+        android:contentDescription="@string/big_song_image" />
 
 
     <RelativeLayout
@@ -63,7 +65,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/current_time"
             android:layout_below="@id/seek_bar"
-            android:text="0:00"
+            android:text="@string/_00_00"
             android:layout_alignParentStart="true"
             android:textColor="@color/white"
             android:layout_margin="20dp"/>
@@ -72,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/seek_bar"
             android:id="@+id/total_time"
-            android:text="0:00"
+            android:text="@string/_00_00"
             android:layout_alignParentEnd="true"
             android:textColor="@color/white"
             android:layout_margin="20dp"/>

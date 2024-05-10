@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 import java.util.ArrayList;
 
-import edu.cuhk.csci3310.mediaplayer.databinding.FragmentHomeBinding;
+import edu.cuhk.csci3310.mediaplayer.databinding.FragmentAudioBinding;
 import edu.cuhk.csci3310.mediaplayer.RecyclerAdapter;
 import edu.cuhk.csci3310.mediaplayer.MediaModel;
 
@@ -28,13 +28,13 @@ public class AudioFragment extends Fragment {
     ArrayList<MediaModel> songsList = new ArrayList<>();
 
     private final String drawFilePath = "android.resource://edu.cuhk.csci3310.mediaplayer/drawable/";
-    private FragmentHomeBinding binding;
+    private FragmentAudioBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentAudioBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         //Get the audio files from storage

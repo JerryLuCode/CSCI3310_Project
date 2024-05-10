@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 import java.util.ArrayList;
 
-import edu.cuhk.csci3310.mediaplayer.databinding.FragmentHomeBinding;
+import edu.cuhk.csci3310.mediaplayer.databinding.FragmentAudioBinding;
 import edu.cuhk.csci3310.mediaplayer.RecyclerAdapter;
 import edu.cuhk.csci3310.mediaplayer.MediaModel;
 
@@ -28,12 +28,12 @@ public class VideoFragment extends Fragment {
     ArrayList<MediaModel> videoList = new ArrayList<>();
 
     private final String drawFilePath = "android.resource://edu.cuhk.csci3310.mediaplayer/drawable/";
-    private FragmentHomeBinding binding;
+    private FragmentAudioBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentAudioBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         //Get video files from storage
@@ -69,7 +69,7 @@ public class VideoFragment extends Fragment {
         };
 
         //Selection and sort order
-        String selection = MediaStore.Video.Media.DATA + " IS NOT NULL";;
+        String selection = MediaStore.Video.Media.DATA + " IS NOT NULL";
         String sortOrder = MediaStore.Video.Media.TITLE + " ASC";
 
         //Go through each video file and add to MediaModel
