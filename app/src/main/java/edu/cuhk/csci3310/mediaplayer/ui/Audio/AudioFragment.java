@@ -78,7 +78,14 @@ public class AudioFragment extends Fragment {
         try (Cursor cursor = requireActivity().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, sortOrder)) {
             if (cursor != null && cursor.moveToFirst()) {
                 do{
-                    MediaModel songData = new MediaModel(cursor.getString(1),cursor.getString(0),cursor.getString(2), drawFilePath+"audio_stock");
+                    String title = cursor.getString(0);
+                    String path = cursor.getString(1);
+                    String duration = cursor.getString(2);
+                    // tackle media file does not have HDR metadata
+                    if (title == null || path == null || duration == null) {
+                        continue;
+                    }
+                    MediaModel songData = new MediaModel(path, title, duration, drawFilePath+"audio_stock");
                     if(new File(songData.getPath()).exists())
                         songsList.add(songData);
                 }

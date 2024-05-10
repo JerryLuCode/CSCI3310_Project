@@ -104,7 +104,7 @@ public class RecyclerAdapter extends Adapter<RecyclerAdapter.BuildingViewHolder>
 
         holder.mediaImage.setImageURI(uri);
         holder.mediaTitle.setText(mediaList.get(position).getTitle());
-        holder.mediaLength.setText(mediaList.get(position).getDuration());
+        holder.mediaLength.setText(mediaList.get(position).getFormteedDuration());
 
 
     }

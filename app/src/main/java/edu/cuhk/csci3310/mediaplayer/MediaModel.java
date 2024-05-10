@@ -1,6 +1,7 @@
 package edu.cuhk.csci3310.mediaplayer;
 
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 public class MediaModel implements Serializable {
     String imagePath;
@@ -45,6 +46,16 @@ public class MediaModel implements Serializable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getFormteedDuration() {
+        if (this.duration == null) {
+            return "Time not available";
+        }
+        long millis = Long.parseLong(this.duration);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(minutes);
+        return String.format("%02d:%02d", minutes, seconds);
     }
 
 }

@@ -14,10 +14,12 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import edu.cuhk.csci3310.mediaplayer.R;
 import edu.cuhk.csci3310.mediaplayer.MediaModel;
+
 
 public class MusicPlayerActivity extends AppCompatActivity {
 
@@ -29,6 +31,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     ImageView shareBtn;
     int x = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +130,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
             mediaPlayer.start();
             seekBar.setProgress(0);
             seekBar.setMax(mediaPlayer.getDuration());
+
+            // set a listen to play the next song when the current song is finished
+            mediaPlayer.setOnCompletionListener(mp -> playNextSong());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -164,8 +170,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
     public static String convertToMMSS(String duration) {
-        Long millis = Long.parseLong(duration);
-        return String.format("%02d:%02d",
+        if (duration == null) {
+            return "00:00";
+        }
+        long millis = Long.parseLong(duration);
+        return String.format(Locale.US, "%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
 
@@ -174,6 +183,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        pausePlay();
+        if (mediaPlayer.isPlaying()) {
+            pausePlay();
+        }
     }
 }
